@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import uk.co.barbuzz.countdowntimer.model.TimerValues
 import uk.co.barbuzz.countdowntimer.ui.AppBarScaffold
 import uk.co.barbuzz.countdowntimer.ui.TimerScreen
 import uk.co.barbuzz.countdowntimer.ui.theme.MyTheme
@@ -45,30 +46,49 @@ class MainActivity : AppCompatActivity() {
 fun MyApp(countdownViewModel: CountdownViewModel = viewModel()) {
     Surface(color = MaterialTheme.colors.background) {
         val timer by countdownViewModel.timer.observeAsState(0)
-        val timerStart by countdownViewModel.timerStart.observeAsState(0)
+        val timerStartSec by countdownViewModel.timerStartSec.observeAsState(0)
+        val timerStartMin by countdownViewModel.timerStartMin.observeAsState(0)
         AppBarScaffold(screenTitle = "Countdown Timer") {
             TimerScreen(
-                flow = countdownViewModel.countdownFlow(),
-                timer = timer,
-                timerStart = timerStart,
-                startTimer = { countdownViewModel.startTimer() },
-                pauseTimer = { countdownViewModel.pauseTimer() },
-                resetTimer = { countdownViewModel.resetTimer() },
-                decrementTimerByOneSeconds = {
-                    countdownViewModel.decrementTimer(decrement = 1)
-                },
-                incrementTimerByOneSeconds = {
-                    countdownViewModel.incrementTimer(increment = 1)
-                },
-                incrementTimerByFiveSeconds = {
-                    countdownViewModel.incrementTimer(increment = 5)
-                }
-            ) {
-                countdownViewModel.incrementTimer(increment = 10)
-            }
+                getTimerValues(countdownViewModel, timer, timerStartSec, timerStartMin)
+            )
         }
     }
 }
+
+fun getTimerValues(
+    countdownViewModel: CountdownViewModel,
+    timer: Int,
+    timerStartMin: Int,
+    timerStartSec: Int
+): TimerValues =
+    TimerValues(
+        flow = countdownViewModel.countdownFlow(),
+        timer = timer,
+        timerStartMin = timerStartMin,
+        timerStartSec = timerStartSec,
+        startTimer = { countdownViewModel.startTimer() },
+        pauseTimer = { countdownViewModel.pauseTimer() },
+        resetTimer = { countdownViewModel.resetTimer() },
+        decrementMinuteOneSecond = {
+            countdownViewModel.decrementMinuteTimer(decrement = 1)
+        },
+        incrementMinuteOneSecond = {
+            countdownViewModel.incrementMinuteTimer(increment = 1)
+        },
+        decrementSecondOneSecond = {
+            countdownViewModel.decrementSecondTimer(decrement = 1)
+        },
+        incrementSecondOneSecond = {
+            countdownViewModel.incrementSecondTimer(increment = 1)
+        },
+        incrementTimerByFiveSeconds = {
+            countdownViewModel.incrementSecondTimer(increment = 5)
+        },
+        incrementTimerByTenSeconds = {
+            countdownViewModel.incrementSecondTimer(increment = 10)
+        }
+    )
 
 @Preview("Light Theme", widthDp = 360, heightDp = 640)
 @Composable

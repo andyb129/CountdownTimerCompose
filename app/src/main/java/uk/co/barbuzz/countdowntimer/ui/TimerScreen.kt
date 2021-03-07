@@ -1,7 +1,6 @@
 package uk.co.barbuzz.countdowntimer.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,20 +16,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.Flow
 import uk.co.barbuzz.countdowntimer.R
+import uk.co.barbuzz.countdowntimer.model.TimerValues
 
 @Composable
-fun TimerScreen(
-    flow: Flow<Int>,
-    timer: Int,
-    timerStart: Int,
-    startTimer: () -> Unit,
-    pauseTimer: () -> Unit,
-    resetTimer: () -> Unit,
-    decrementTimerByOneSeconds: () -> Unit,
-    incrementTimerByOneSeconds: () -> Unit,
-    incrementTimerByFiveSeconds: () -> Unit,
-    incrementTimerByTenSeconds: () -> Unit
-) {
+fun TimerScreen(timerValues: TimerValues) {
     Box (
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -43,16 +32,22 @@ fun TimerScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Countdown(flow, timerStart, timer)
+            Countdown(
+                timerValues.flow,
+                timerValues.timerStartSec,
+                timerValues.timer,
+                timerValues.decrementMinuteOneSecond,
+                timerValues.incrementMinuteOneSecond,
+                timerValues.decrementSecondOneSecond,
+                timerValues.incrementSecondOneSecond
+            )
             Spacer(Modifier.height(32.dp).fillMaxWidth())
             Timer(
-                startTimer,
-                pauseTimer,
-                resetTimer,
-                decrementTimerByOneSeconds,
-                incrementTimerByOneSeconds,
-                incrementTimerByFiveSeconds,
-                incrementTimerByTenSeconds
+                timerValues.startTimer,
+                timerValues.pauseTimer,
+                timerValues.resetTimer,
+                timerValues.incrementTimerByFiveSeconds,
+                timerValues.incrementTimerByTenSeconds
             )
         }
     }

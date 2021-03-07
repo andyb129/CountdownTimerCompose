@@ -16,8 +16,6 @@ import androidx.compose.ui.unit.dp
 fun Timer(startTimer: () -> Unit,
           pauseTimer: () -> Unit,
           resetTimer: () -> Unit,
-          decrementTimerByOneSeconds: () -> Unit,
-          incrementTimerByOneSeconds: () -> Unit,
           incrementTimerByFiveSeconds: () -> Unit,
           incrementTimerByTenSeconds: () -> Unit
 ) {
@@ -34,18 +32,9 @@ fun Timer(startTimer: () -> Unit,
             Modifier.fillMaxWidth().padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            TimerButton("-", decrementTimerByOneSeconds)
             TimerButton("+5", incrementTimerByFiveSeconds)
             TimerButton("+10", incrementTimerByTenSeconds)
-            TimerButton("+", incrementTimerByOneSeconds)
         }
-    }
-}
-
-@Composable
-private fun TimerButton(buttonText: String, buttonOnClick: () -> Unit) {
-    Button(onClick = buttonOnClick, modifier = Modifier.padding(8.dp)) {
-        Text(buttonText)
     }
 }
 

@@ -11,8 +11,11 @@ class CountdownViewModel: ViewModel() {
     private val _timer: MutableLiveData<Int> = MutableLiveData(0)
     val timer: LiveData<Int> = _timer
 
-    private val _timerStart: MutableLiveData<Int> = MutableLiveData(0)
-    val timerStart: LiveData<Int> = _timerStart
+    private val _timerStartSec: MutableLiveData<Int> = MutableLiveData(0)
+    val timerStartSec: LiveData<Int> = _timerStartSec
+
+    private val _timerStartMin: MutableLiveData<Int> = MutableLiveData(0)
+    val timerStartMin: LiveData<Int> = _timerStartMin
 
     private var timerRunning: Boolean = false
     private var timerCurrent: Int = 0
@@ -35,13 +38,23 @@ class CountdownViewModel: ViewModel() {
         }
     }
 
-    fun incrementTimer(increment: Int) {
-        _timerStart.value = _timerStart.value?.plus(increment)
+    fun incrementSecondTimer(increment: Int) {
+        _timerStartSec.value = _timerStartSec.value?.plus(increment)
     }
 
-    fun decrementTimer(decrement: Int) {
-        if (_timerStart.value != null && _timerStart.value!! > 0) {
-            _timerStart.value = _timerStart.value?.minus(decrement)
+    fun decrementSecondTimer(decrement: Int) {
+        if (_timerStartSec.value != null && _timerStartSec.value!! > 0) {
+            _timerStartSec.value = _timerStartSec.value?.minus(decrement)
+        }
+    }
+
+    fun incrementMinuteTimer(increment: Int) {
+        _timerStartSec.value = _timerStartSec.value?.plus(increment)
+    }
+
+    fun decrementMinuteTimer(decrement: Int) {
+        if (_timerStartSec.value != null && _timerStartSec.value!! > 0) {
+            _timerStartSec.value = _timerStartSec.value?.minus(decrement)
         }
     }
 
@@ -50,7 +63,7 @@ class CountdownViewModel: ViewModel() {
         if (timerCurrent > 0) {
             _timer.value = timerCurrent
         } else {
-            _timer.value = _timerStart.value
+            _timer.value = _timerStartSec.value
         }
     }
     
@@ -61,7 +74,7 @@ class CountdownViewModel: ViewModel() {
     fun resetTimer() {
         timerCurrent = 0
         _timer.value = 0
-        _timerStart.value = 0
+        _timerStartSec.value = 0
         timerRunning = false
     }
 }
