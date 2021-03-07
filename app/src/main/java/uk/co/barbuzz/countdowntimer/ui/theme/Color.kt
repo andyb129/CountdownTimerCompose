@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package uk.co.barbuzz.countdowntimer.ui.theme
 
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Shapes
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 
-val shapes = Shapes(
-    small = RoundedCornerShape(4.dp),
-    medium = RoundedCornerShape(4.dp),
-    large = RoundedCornerShape(0.dp)
-)
+val purple200 = Color(0xFF6f74dd)
+val purple500 = Color(0xFF3949ab)
+val purple700 = Color(0xFF00227b)
+val teal200 = Color(0xFFd32f2f)
